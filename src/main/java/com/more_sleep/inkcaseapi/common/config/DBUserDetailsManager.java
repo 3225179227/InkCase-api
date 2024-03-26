@@ -1,7 +1,6 @@
 package com.more_sleep.inkcaseapi.common.config;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.more_sleep.inkcaseapi.common.utils.BaseContext;
 import com.more_sleep.inkcaseapi.mapper.IUserMapper;
 import jakarta.annotation.Resource;
 import com.more_sleep.inkcaseapi.entity.User;

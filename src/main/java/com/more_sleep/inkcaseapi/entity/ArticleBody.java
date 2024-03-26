@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serial;
+import java.io.Serializable;
+
 
 /**
  * 文章内容
@@ -16,8 +19,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("me_article_body")
-public class ArticleBody {
+public class ArticleBody implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = -7611409995977927628L;
 
     private String content; // 内容

@@ -7,24 +7,29 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serial;
-import java.io.Serializable;
-
 /**
- * 文章标签
+ * 文章分类
  * @Author: lbj
  * @Date: 2024/3/25
  */
+
+
+@TableName("me_category")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("me_tag")
-public class Tag implements Serializable {
-    @Serial
+public class Category {
+
+    /**
+     *
+     */
     private static final long serialVersionUID = 5025313969040054182L;
 
     @NotBlank
-    private String tagName;
+    @TableField("categoryname")
+    private String categoryName;
+
+    private String description;
 
     @NotBlank
     private String avatar;

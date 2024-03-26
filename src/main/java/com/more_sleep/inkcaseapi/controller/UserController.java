@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 /**
  * 用户控制器
+ *
  * @Author: lbj
  * @Date: 2024/3/24
  */
@@ -24,6 +25,7 @@ public class UserController {
     private final IUserService userService;
 
     private final RedisTemplate<Object, Object> redisTemplate;
+
     @GetMapping("/user-info")
     public R<User> getUserById() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -33,24 +35,7 @@ public class UserController {
 
     @PostMapping("/register")
     public R<User> register(@RequestBody User user, @RequestParam("code") String code) {
+        return userService.saveUserDetails(user, code);
 
-        // 验证邮箱是否已经注册
-        User userByEmail = userService.getByEmail(user.getEmail());
-        if (userByEmail != null) {
-            return R.error("邮箱已经注册");
-        } else {
-            //验证邮箱验证码是否正确
-            ValueOperations<Object, Object> valueOperations = redisTemplate.opsForValue();
-            Object codeInRedis = valueOperations.get(user.getEmail());
-
-            if (codeInRedis == null || !codeInRedis.equals(code)) {
-                return R.error("验证码错误");
-            } else {
-                user.setDeleted(false);
-                user.setAdmin(false);
-                userService.saveUserDetails(user);
-                return R.success(user);
-            }
-        }
     }
 }

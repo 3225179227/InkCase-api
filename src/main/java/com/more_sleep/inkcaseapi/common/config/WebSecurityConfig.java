@@ -3,14 +3,17 @@ package com.more_sleep.inkcaseapi.common.config;
 import com.more_sleep.inkcaseapi.common.handler.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 import static org.springframework.security.config.Customizer.withDefaults;
+
 
 /**
  * WebSecurity配置
@@ -78,9 +81,11 @@ public class WebSecurityConfig {
         // 处理跨域
         // 这样是开放所有的跨域请求，生产环境请根据需求配置
         // 应该配置允许的域名
-        http.cors(withDefaults());
+//        http.cors(withDefaults());
+        http.cors(cors -> cors.configurationSource(corsConfigurationSource()));
 
         // 关闭csrf
+
         http.csrf(csrf -> csrf.disable());
         return http.build();
     }
@@ -104,6 +109,38 @@ public class WebSecurityConfig {
     /*@Bean
     public PasswordEncoder passwordEncoder() {
         return NoOpPasswordEncoder.getInstance();
+    }*/
+
+//    @Bean
+//    public CorsFilter corsFilter() {
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        CorsConfiguration config = new CorsConfiguration();
+//        config.setAllowedOrigins(List.of("*")); // 设置允许访问的域名
+//        config.setAllowedMethods(List.of("*")); // 允许所有HTTP方法
+//        config.setAllowedHeaders(List.of("*")); // 允许所有请求头
+//        config.setAllowCredentials(true); // 允许发送凭据（例如Cookie）
+//        source.registerCorsConfiguration("/**", config);
+//        return new CorsFilter(source);
+//    }
+
+    // 跨域请求配置
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(List.of("http://localhost:8080")); // 允许所有源
+        configuration.setAllowedMethods(List.of("*")); // 允许所有方法
+        configuration.setAllowedHeaders(List.of("*")); // 允许所有头部
+        configuration.setAllowCredentials(true); // 允许发送凭证
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
+
+    // 密码编码器
+    /*@Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }*/
 
 }

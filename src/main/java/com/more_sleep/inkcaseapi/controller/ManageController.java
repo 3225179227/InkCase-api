@@ -36,10 +36,10 @@ public class ManageController {
         return userService.list();
     }
 
-    @PostMapping("/user/add")
-    public void add(@RequestBody User user) {
-        userService.saveUserDetails(user);
-    }
+//    @PostMapping("/user/add")
+//    public void add(@RequestBody User user) {
+//        userService.save(user);
+//    }
 
     @GetMapping("/user/{id}")
     public User getById(@PathVariable Long id) {

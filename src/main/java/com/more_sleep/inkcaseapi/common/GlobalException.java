@@ -44,7 +44,7 @@ public class GlobalException {
     public R<String> otherExceptionHandler(Exception ex) {
         log.error("otherException");
         log.error("Error ease:" + ex.getMessage());
-//        ex.printStackTrace();
+        ex.printStackTrace();
         return R.error("该功能未开放");
     }
 }
