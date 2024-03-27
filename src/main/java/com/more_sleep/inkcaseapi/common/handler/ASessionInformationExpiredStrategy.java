@@ -22,7 +22,7 @@ public class ASessionInformationExpiredStrategy implements SessionInformationExp
 
         String message = "该账号已在其他设备登录";//authException.getLocalizedMessage();
         HashMap<Object, Object> result = new HashMap<>();
-        result.put("code", 403);
+        result.put("code", 1);
         result.put("msg", message);
 
         String json = JSON.toJSONString(result);

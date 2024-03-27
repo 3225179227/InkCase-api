@@ -1,9 +1,7 @@
 package com.more_sleep.inkcaseapi.entity;
 
-import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -41,6 +39,7 @@ public class Article implements Serializable {
     @Serial
     private static final long serialVersionUID = -4470366380115322213L;
 
+    private Long id;
 
     @NotBlank
     private String title;
@@ -53,9 +52,13 @@ public class Article implements Serializable {
     @TableField(exist = false)
     private User author;
 
+    private int authorId;
+
 //    @OneToOne(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, orphanRemoval = true)
     @TableField(exist = false)
     private ArticleBody body;
+
+    private int bodyId;
 
 
 //    @ManyToOne(fetch = FetchType.LAZY)
@@ -63,6 +66,8 @@ public class Article implements Serializable {
     // 多对一
     @TableField(exist = false)
     private Category category;
+
+    private int categoryId;
 
 //    @ManyToMany(fetch = FetchType.LAZY)
 //    @JoinTable(name = "me_article_tag",
@@ -74,7 +79,7 @@ public class Article implements Serializable {
     private List<Tag> tags;
 
 //    @OneToMany(fetch = FetchType.LAZY, mappedBy = "article", orphanRemoval = true)
-    @JsonBackReference
+//    @JsonBackReference
     @TableField(exist = false)
     private List<Comment> comments;
 
@@ -93,7 +98,7 @@ public class Article implements Serializable {
     /**
      * 创建时间
      */
-    @JSONField(format = "yyyy.MM.dd HH:mm")
+//    @JSONField(format = "yyyy.MM.dd HH:mm")
     private Date createDate;
 
 

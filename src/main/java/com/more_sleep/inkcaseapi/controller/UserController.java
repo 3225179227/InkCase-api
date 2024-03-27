@@ -1,5 +1,8 @@
 package com.more_sleep.inkcaseapi.controller;
 
+
+
+import com.alibaba.fastjson.annotation.JSONType;
 import com.more_sleep.inkcaseapi.common.R;
 import com.more_sleep.inkcaseapi.entity.User;
 import com.more_sleep.inkcaseapi.service.IUserService;
@@ -26,6 +29,8 @@ public class UserController {
 
     private final RedisTemplate<Object, Object> redisTemplate;
 
+
+
     @GetMapping("/user-info")
     public R<User> getUserById() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -36,6 +41,6 @@ public class UserController {
     @PostMapping("/register")
     public R<User> register(@RequestBody User user, @RequestParam("code") String code) {
         return userService.saveUserDetails(user, code);
-
     }
+
 }

@@ -24,6 +24,8 @@ public class ArticleBody implements Serializable {
     @Serial
     private static final long serialVersionUID = -7611409995977927628L;
 
+    private Long id;
+
     private String content; // 内容
 
     private String contentHtml;

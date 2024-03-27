@@ -1,6 +1,5 @@
 package com.more_sleep.inkcaseapi.mapper;
 
-import lombok.AllArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,17 +11,12 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
  */
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-public class ArticleMapperTest {
+public class ArticleBodyMapperTest {
     @Autowired
-    private IArticleMapper articleMapper;
+    private IArticleBodyMapper articleBodyMapper;
 
     @Test
-    public void List() {
-        articleMapper.selectList(null).forEach(System.out::println);
-    }
-
-    @Test
-    public void getWithTime() {
-        articleMapper.getWithTime().forEach(System.out::println);
+    public void getById() {
+        System.out.println(articleBodyMapper.selectById(1));
     }
 }

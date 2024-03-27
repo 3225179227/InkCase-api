@@ -1,10 +1,13 @@
 package com.more_sleep.inkcaseapi.entity;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson.annotation.JSONType;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,11 +27,13 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @TableName("sys_user")
+@JSONType(includes = {"account", "nickname", "avatar", "email"})
 public class User implements Serializable {
 
     @Serial
     private static final long serialVersionUID = -4454737765850239378L;
 
+    @JsonIgnore
     private Long id;
 
     // 用户名
@@ -40,6 +45,7 @@ public class User implements Serializable {
      */
     // 密码
     @NotBlank
+    @JsonIgnore
     private String password;
 
     /**
@@ -58,13 +64,14 @@ public class User implements Serializable {
     /**
      * 加密密码时使用的种子
      */
+    @JsonIgnore
     private String salt;
 
 
     /**
      * 创建时间
      */
-//    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createDate;
 
@@ -72,7 +79,7 @@ public class User implements Serializable {
     /**
      * 最后一次登录时间
      */
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date lastLogin;
 
     /**

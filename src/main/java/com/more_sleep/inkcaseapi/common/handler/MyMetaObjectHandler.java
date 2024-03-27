@@ -30,6 +30,5 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
         System.out.println("线程id：" + Thread.currentThread().getId());
 
         metaObject.setValue("updateTime", LocalDateTime.now());
-        metaObject.setValue("updateUser", 1L);
     }
 }

@@ -1,6 +1,8 @@
 package com.more_sleep.inkcaseapi.common.handler;
 
 import com.alibaba.fastjson.JSON;
+import com.more_sleep.inkcaseapi.common.Code;
+import com.more_sleep.inkcaseapi.common.R;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -20,11 +22,7 @@ import java.util.HashMap;
 public class AAccessDeniedHandler implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
-        HashMap<Object, Object> result = new HashMap<>();
-        result.put("code", 403);
-        result.put("msg", "权限不足");
-
-        String json = JSON.toJSONString(result);
+        String json = JSON.toJSONString(R.error(Code.PERMISSION_NO_ACCESS.getCode(), "权限不足"));
         response.setContentType("application/json;charset=utf-8");
         response.getWriter().write(json);
     }

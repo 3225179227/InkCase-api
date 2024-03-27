@@ -3,8 +3,6 @@ package com.more_sleep.inkcaseapi.service;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.more_sleep.inkcaseapi.entity.Article;
-import com.more_sleep.inkcaseapi.mapper.IArticleMapper;
-import lombok.AllArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,24 +14,18 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
  */
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-public class ArticleServiceTest {
+public class ArticleServiceBodyTest {
 
     @Autowired
-    private IArticleService articleService;
+    private IArticleBodyService articleBodyService;
 
     @Test
     public void List() {
-        articleService.list().forEach(System.out::println);
+        articleBodyService.list().forEach(System.out::println);
     }
 
     @Test
-    public void PageList() {
-        Page<Article> pageInfo = new Page<>(0, 3);
-
-        // 2.条件构造器
-        LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.orderByDesc(Article::getCreateDate);
-        articleService.pageList(pageInfo, queryWrapper);
-        pageInfo.getRecords().forEach(System.out::println);
+    public void getById() {
+        System.out.println(articleBodyService.getById(1));
     }
 }

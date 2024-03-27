@@ -22,7 +22,7 @@ public class ALogoutSuccessHandler implements LogoutSuccessHandler {
     @Override
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         HashMap<Object, Object> result = new HashMap<>();
-        result.put("code", 200);
+        result.put("code", 0);
         result.put("msg", "注销成功");
 
         String json = JSON.toJSONString(result);

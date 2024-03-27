@@ -20,7 +20,7 @@ public class AAuthenticationFailureHandler implements AuthenticationFailureHandl
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         String localizedMessage = exception.getLocalizedMessage();
-        Map<Object, Object> result = Map.of("code", 401, "msg", localizedMessage);
+        Map<Object, Object> result = Map.of("code", 1, "msg", localizedMessage);
 
         response.setContentType("application/json;charset=utf-8");
         String json = JSON.toJSONString(result);
