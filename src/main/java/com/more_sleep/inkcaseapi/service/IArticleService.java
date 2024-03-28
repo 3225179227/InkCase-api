@@ -16,7 +16,7 @@ public interface IArticleService extends IService<Article> {
 
     Article getByIdWithBody(Long id);
 
-    List<Article> listWithAll();
+    List<Article> listWithAll(Integer pageNumber, Integer pageSize);
 
     List<Article> getHot(Integer limit);
 

@@ -13,6 +13,7 @@ import com.more_sleep.inkcaseapi.service.IArticleService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -52,8 +53,15 @@ public class ArticleServiceImpl extends ServiceImpl<IArticleMapper, Article> imp
     }
 
     @Override
-    public List<Article> listWithAll() {
-        return list().stream().peek(article -> {
+    public List<Article> listWithAll(Integer pageNumber, Integer pageSize) {
+        Page<Article> pageInfo = new Page<>(pageNumber, pageSize);
+        System.out.println(pageNumber + " " +pageSize);
+        LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.orderBy(true, false, Article::getCreateDate);
+        articleMapper.selectPage(pageInfo, null);
+
+        List<Article> list = pageInfo.getRecords();
+        return list.stream().peek(article -> {
             article.setAuthor(userMapper.selectById(article.getAuthorId()));
             article.setBody(articleBodyMapper.selectById(article.getBodyId()));
             article.setCategory(categoryMapper.selectById(article.getCategoryId()));
