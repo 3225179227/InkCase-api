@@ -42,6 +42,14 @@ public class WebSecurityConfig {
                         .requestMatchers("/mail/sendmail")
                         .permitAll()
 
+                        // 开放文章路径
+                        .requestMatchers("/article/**")
+                        .permitAll()
+
+                        // 发布文章需要USER权限
+                        .requestMatchers("/article/publish")
+                        .hasRole("USER")
+
                         //  对于/user/**的请求需要ADMIN权限
                         .requestMatchers("/manage/**")
                         .hasRole("ADMIN")

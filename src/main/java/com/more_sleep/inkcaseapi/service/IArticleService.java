@@ -27,4 +27,6 @@ public interface IArticleService extends IService<Article> {
     void updateByIdWithAll(Article article);
 
     List<Article> getByCategoryId(Long id);
+
+    Article getArticleAndAddViews(Integer id);
 }

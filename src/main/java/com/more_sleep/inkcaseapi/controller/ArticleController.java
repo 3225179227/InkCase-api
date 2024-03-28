@@ -79,4 +79,12 @@ public class ArticleController {
         articleService.updateByIdWithAll(article);
         return R.success("修改成功");
     }
+
+    @GetMapping("/view/{id}")
+    public R<Article> getArticleAndAddViews(@PathVariable("id") Integer id) {
+
+        Article article = articleService.getArticleAndAddViews(id);
+
+        return R.success(article);
+    }
 }

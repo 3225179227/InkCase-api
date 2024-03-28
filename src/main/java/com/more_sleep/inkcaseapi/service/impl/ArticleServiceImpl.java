@@ -104,4 +104,15 @@ public class ArticleServiceImpl extends ServiceImpl<IArticleMapper, Article> imp
             article.setCategory(categoryMapper.selectById(article.getCategoryId()));
         }).toList();
     }
+
+    @Override
+    public Article getArticleAndAddViews(Integer id) {
+        Article article = articleMapper.selectById(id);
+        article.setViewCounts(article.getViewCounts() + 1);
+        articleMapper.updateById(article);
+        article.setAuthor(userMapper.selectById(article.getAuthorId()));
+        article.setBody(articleBodyMapper.selectById(article.getBodyId()));
+        article.setCategory(categoryMapper.selectById(article.getCategoryId()));
+        return article;
+    }
 }
