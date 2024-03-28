@@ -42,5 +42,4 @@ public class UserController {
     public R<User> register(@RequestBody User user, @RequestParam("code") String code) {
         return userService.saveUserDetails(user, code);
     }
-
 }

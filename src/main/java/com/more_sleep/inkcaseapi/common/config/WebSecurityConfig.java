@@ -93,7 +93,6 @@ public class WebSecurityConfig {
         http.cors(cors -> cors.configurationSource(corsConfigurationSource()));
 
         // 关闭csrf
-
         http.csrf(csrf -> csrf.disable());
         return http.build();
     }

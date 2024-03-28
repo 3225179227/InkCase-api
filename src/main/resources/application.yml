@@ -3,6 +3,14 @@ server:
   servlet:
     context-path: /inkCase-api
 
+xiaolinbao:
+  jwt:
+    header: Authorization
+    expire: 604800 # 7天，s为单位
+    secret: abcdefghabcdefghabcdefghabcdefgh
+
+
+
 spring:
   application:
     name: inkCase-api

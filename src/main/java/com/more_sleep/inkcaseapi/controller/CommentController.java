@@ -38,6 +38,10 @@ public class CommentController {
 
     @PostMapping("/create")
     public R<Comment> create(@RequestBody Comment comment) {
+        comment.setArticleId(comment.getArticle().getId());
+        comment.setAuthorId(comment.getAuthor().getId());
+        comment.setToUserId(comment.getToUser().getId());
+
         commentService.save(comment);
         Long articleId = comment.getArticleId();
         Article article = new Article();

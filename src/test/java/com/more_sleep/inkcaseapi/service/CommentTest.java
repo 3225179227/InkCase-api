@@ -19,4 +19,9 @@ public class CommentTest {
     public void List() {
         commentService.list().forEach(System.out::println);
     }
+
+    @Test
+    public void getCommentById() {
+        System.out.println(commentService.getByArticleId(1L));
+    }
 }
