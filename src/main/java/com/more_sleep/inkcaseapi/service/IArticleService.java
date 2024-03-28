@@ -25,4 +25,6 @@ public interface IArticleService extends IService<Article> {
     List<DataVo> getWithTime();
 
     void updateByIdWithAll(Article article);
+
+    List<Article> getByCategoryId(Long id);
 }

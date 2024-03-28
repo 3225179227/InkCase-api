@@ -63,6 +63,11 @@ public class ArticleController {
         return R.success(articleService.getWithTime());
     }
 
+    @GetMapping("/category/{id}")
+    public R<List<Article>> getByCategoryId(@PathVariable Long id) {
+        return R.success(articleService.getByCategoryId(id));
+    }
+
     @DeleteMapping("/{id}")
     public R<String> delete(@PathVariable Long id) {
         articleService.removeById(id);

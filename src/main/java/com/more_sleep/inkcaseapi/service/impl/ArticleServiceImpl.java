@@ -93,4 +93,15 @@ public class ArticleServiceImpl extends ServiceImpl<IArticleMapper, Article> imp
         articleBodyMapper.updateById(article.getBody());
         categoryMapper.updateById(article.getCategory());
     }
+
+    @Override
+    public List<Article> getByCategoryId(Long id) {
+        LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Article::getCategoryId, id);
+        return list(queryWrapper).stream().peek(article -> {
+            article.setAuthor(userMapper.selectById(article.getAuthorId()));
+            article.setBody(articleBodyMapper.selectById(article.getBodyId()));
+            article.setCategory(categoryMapper.selectById(article.getCategoryId()));
+        }).toList();
+    }
 }
