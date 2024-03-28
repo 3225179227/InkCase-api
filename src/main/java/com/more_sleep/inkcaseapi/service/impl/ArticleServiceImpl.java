@@ -53,12 +53,16 @@ public class ArticleServiceImpl extends ServiceImpl<IArticleMapper, Article> imp
     }
 
     @Override
-    public List<Article> listWithAll(Integer pageNumber, Integer pageSize) {
+    public List<Article> listWithAll(Integer pageNumber, Integer pageSize, Integer year, Integer month) {
         Page<Article> pageInfo = new Page<>(pageNumber, pageSize);
         System.out.println(pageNumber + " " +pageSize);
         LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.orderBy(true, false, Article::getCreateDate);
-        articleMapper.selectPage(pageInfo, null);
+        queryWrapper.orderBy(true, true, Article::getCreateDate);
+//        queryWrapper.eq(year != null, Article::getCreateDate, year);
+//        queryWrapper.eq(month != null, Article::getCreateDate, month);
+        queryWrapper.apply(year != null, "YEAR(create_date) = {0}", year);
+        queryWrapper.apply(month != null, "MONTH(create_date) = {0}", month);
+        articleMapper.selectPage(pageInfo, queryWrapper);
 
         List<Article> list = pageInfo.getRecords();
         return list.stream().peek(article -> {

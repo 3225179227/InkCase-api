@@ -44,8 +44,9 @@ public class ArticleController {
     }
 
     @GetMapping
-    public R<List<Article>> list(Integer pageNumber, Integer pageSize) {
-        return R.success(articleService.listWithAll(pageNumber, pageSize));
+    public R<List<Article>> list(Integer pageNumber, Integer pageSize,
+                                 Integer year, Integer month) {
+        return R.success(articleService.listWithAll(pageNumber, pageSize, year, month));
     }
 
     @GetMapping("/hot")
