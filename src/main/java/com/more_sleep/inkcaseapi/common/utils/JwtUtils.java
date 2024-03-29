@@ -1,17 +1,19 @@
 package com.more_sleep.inkcaseapi.common.utils;
 
 import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.Keys;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+import java.util.Base64;
 import java.util.Date;
 /**
  *
  */
 @Data
 @Component
-@ConfigurationProperties(prefix = "xiaolinbao.jwt")
+@ConfigurationProperties(prefix = "lbj.jwt")
 public class JwtUtils {
 
     private long expire;
@@ -29,7 +31,7 @@ public class JwtUtils {
                 .setSubject(username)
                 .setIssuedAt(nowDate)
                 .setExpiration(expireDate)    // 7天过期
-                .signWith(SignatureAlgorithm.HS512, secret)
+                .signWith(Keys.hmacShaKeyFor(Base64.getDecoder().decode(secret)))
                 .compact();
     }
 

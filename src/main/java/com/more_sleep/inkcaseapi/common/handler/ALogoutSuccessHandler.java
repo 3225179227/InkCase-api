@@ -16,7 +16,7 @@ import java.util.HashMap;
  * @Author: lbj
  * @Date: 2024/3/24
  */
-
+@Deprecated
 public class ALogoutSuccessHandler implements LogoutSuccessHandler {
 
     @Override

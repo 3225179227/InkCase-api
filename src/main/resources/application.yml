@@ -3,11 +3,11 @@ server:
   servlet:
     context-path: /inkCase-api
 
-xiaolinbao:
+lbj:
   jwt:
     header: Authorization
     expire: 604800 # 7天，s为单位
-    secret: abcdefghabcdefghabcdefghabcdefgh
+    secret: TUrnEmnc2V6iJA/G0o5FZnobyB6HsoKzPr94LrgVTaNFNbdvoxm17QR8ufE1TKOgwt9RzIsIRUnCAPuI0MmHaQ==
 
 
 

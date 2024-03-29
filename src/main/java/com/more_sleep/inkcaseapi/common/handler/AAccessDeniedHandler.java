@@ -18,7 +18,7 @@ import java.util.HashMap;
  * @Author: lbj
  * @Date: 2024/3/24
  */
-
+@Deprecated
 public class AAccessDeniedHandler implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
