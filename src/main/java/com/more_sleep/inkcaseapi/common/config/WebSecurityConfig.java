@@ -1,39 +1,47 @@
 package com.more_sleep.inkcaseapi.common.config;
 
 import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.more_sleep.inkcaseapi.common.Code;
 import com.more_sleep.inkcaseapi.common.R;
 import com.more_sleep.inkcaseapi.common.handler.*;
 import com.more_sleep.inkcaseapi.common.utils.JwtUtils;
-import jakarta.servlet.ServletOutputStream;
-import jakarta.servlet.http.HttpServletRequest;
+import com.more_sleep.inkcaseapi.filter.JwtAthFilter;
+import com.more_sleep.inkcaseapi.mapper.IUserMapper;
+import com.more_sleep.inkcaseapi.service.IUserService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
-import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.jwt.JwtDecoders;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static org.springframework.security.config.Customizer.withDefaults;
 
 
 /**
@@ -46,11 +54,11 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @EnableWebSecurity// springBoot可免去这个配置
 @AllArgsConstructor
 public class WebSecurityConfig {
+
+    private final JwtAthFilter jwtAthFilter;
+    private final IUserService userService;
     private final JwtUtils jwtUtils;
 
-    private final UserDetailsService userDetailsService;
-
-    private final ApplicationContext applicationContext;
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         // 配置请求授权
@@ -62,29 +70,25 @@ public class WebSecurityConfig {
                         .hasAuthority("USER_ADD")*/
 
                         // 开放注册路径
-                        .requestMatchers("/user/register")
-                        .permitAll()
+                        .requestMatchers("/user/register").permitAll()
 
                         // 开放邮箱路径
-                        .requestMatchers("/mail/sendmail")
-                        .permitAll()
+                        .requestMatchers("/mail/sendmail").permitAll()
 
                         // 开放文章路径
-                        .requestMatchers("/article/**")
-                        .permitAll()
+                        .requestMatchers("/article/**").permitAll()
 
-                        // 发布文章需要USER权限
-                        .requestMatchers("/article/publish")
-                        .hasRole("USER")
+                        // 发布文章需要USER或ADMIN权限
+                        .requestMatchers("/article/publish").hasAnyRole("USER", "ADMIN")
+
+                        // tag路径需要USER权限
+                        .requestMatchers("/tag/**").hasAnyRole("USER", "ADMIN")
 
                         //  对于/user/**的请求需要ADMIN权限
-                        .requestMatchers("/manage/**")
-                        .hasRole("ADMIN")
+                        .requestMatchers("/manage/**").hasRole("ADMIN")
 
-                        // 对于所有请求都需要认证
-                        .anyRequest()
-                        // 已认证的请求不会被自动授权
-                        .authenticated()
+                        // 对于所有请求都需要认证已认证的请求不会被自动授权
+                        .anyRequest().authenticated()
         );
 //                .formLogin(withDefaults());
         // 登录处理器
@@ -100,11 +104,14 @@ public class WebSecurityConfig {
                         .successHandler((request, response, authentication)->{
                             response.setContentType("application/json;charset=UTF-8");
 
-                            // 生成JWT，并放置到请求头中
-                            String jwt = jwtUtils.generateToken(authentication.getName());
-                            response.setHeader(jwtUtils.getHeader(), jwt);
+                            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+                            // 用户角色
+//                            Map<String, Object> claims = new HashMap<>();
+//                            List<String> roles = new ArrayList<>();
+//                            userDetails.getAuthorities().forEach(authority -> roles.add(authority.getAuthority()));
+//                            claims.put("roles", roles);
 
-                            String json = JSON.toJSONString(R.success(Map.of("Oauth-Token", jwt), "登录成功"));
+                            String json = JSON.toJSONString(R.success(jwtUtils.generateToken(userDetails),"登录成功"));
                             response.setContentType("application/json;charset=utf-8");
                             response.getWriter().write(json);
                         })
@@ -143,11 +150,39 @@ public class WebSecurityConfig {
             response.getWriter().write(json);
         }));
 
+        // OAuth2.0
+        // OAuth2.0什么情况下登录成功？ 需要token吗？
+        // OAuth2.0登录成功后，会返回一个token，这个token是用来验证用户身份的
+        // 如何返回token？ 通过successHandler
+
+        /*http.oauth2Login(oauth2Login -> oauth2Login
+                .loginPage("/login")
+                .successHandler((request, response, authentication)->{
+                    response.setContentType("application/json;charset=UTF-8");
+                    String json = JSON.toJSONString(R.success("登录成功"));
+                    response.setContentType("application/json;charset=utf-8");
+                    response.getWriter().write(json);
+                })
+                .failureHandler(new AAuthenticationFailureHandler())
+        );
+
+        http.oauth2ResourceServer(oauth2ResourceServer -> oauth2ResourceServer
+                .jwt(jwt -> jwt
+                        .jwkSetUri("http://localhost:8080/.well-known/jwks.json")
+                        .decoder(JwtDecoders.fromIssuerLocation("http://localhost:8080/oauth/token"))
+                ));*/
+
+
+
+        http
+                // 配置登录表单
+                .authenticationProvider(authenticationProvider())
+                .addFilterBefore(jwtAthFilter, UsernamePasswordAuthenticationFilter.class);
+
 
         // 处理跨域
         // 这样是开放所有的跨域请求，生产环境请根据需求配置
         // 应该配置允许的域名
-//        http.cors(withDefaults());
         http.cors(cors -> cors.configurationSource(corsConfigurationSource()));
 
         // 关闭csrf
@@ -155,6 +190,28 @@ public class WebSecurityConfig {
         return http.build();
     }
 
+    @Bean
+    public AuthenticationProvider authenticationProvider() {
+        final DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+        authenticationProvider.setUserDetailsService(userDetailsService());
+        authenticationProvider.setPasswordEncoder(passwordEncoder());
+        return authenticationProvider;
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+        return config.getAuthenticationManager();
+    }
+
+    @Bean
+    public UserDetailsService userDetailsService() {
+        return userService::loadUserByUsername;
+    }
 
     /*@Bean
     public UserDetailsService userDetailsService() {
@@ -198,25 +255,8 @@ public class WebSecurityConfig {
         configuration.setAllowedHeaders(List.of("*")); // 允许所有头部
         configuration.setAllowCredentials(true); // 允许发送凭证
 
-        // 这个配置是干什么的？ 为什么要配置这个？
-        // 为了让Spring Security的跨域配置生效
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
-
-    @Bean
-    public AuthenticationManager customAuthenticationManager() throws Exception {
-        return authenticationManager();
-    }
-
-    @Bean
-    public AuthenticationManager authenticationManager() throws Exception {
-        ObjectPostProcessor<Object> opp = applicationContext.getBean(ObjectPostProcessor.class);
-        AuthenticationManagerBuilder builder = new AuthenticationManagerBuilder(opp);
-        builder.userDetailsService(userDetailsService);
-        return builder.build();
-    }
-
-
 }

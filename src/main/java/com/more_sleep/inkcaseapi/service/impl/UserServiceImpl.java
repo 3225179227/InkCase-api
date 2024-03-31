@@ -14,6 +14,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+
 @Service
 @AllArgsConstructor
 public class UserServiceImpl extends ServiceImpl<IUserMapper, User> implements IUserService {
@@ -23,6 +25,8 @@ public class UserServiceImpl extends ServiceImpl<IUserMapper, User> implements I
     private final IUserMapper userMapper;
 
     private final RedisTemplate<Object, Object> redisTemplate;
+
+    private final IUserMapper userDao;
 
 //    private final PasswordEncoder passwordEncoder;
 
@@ -75,5 +79,15 @@ public class UserServiceImpl extends ServiceImpl<IUserMapper, User> implements I
         LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(User::getEmail, email);
         return userMapper.selectOne(queryWrapper);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String s) {
+        LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(User::getAccount, s);
+        // 根据用户邮箱从 UserDao 中查找用户
+        User user = userDao.selectOne(wrapper);
+        UserDetails userDetails = new org.springframework.security.core.userdetails.User(user.getAccount(), user.getPassword(), new ArrayList<>());
+        return userDetails;
     }
 }

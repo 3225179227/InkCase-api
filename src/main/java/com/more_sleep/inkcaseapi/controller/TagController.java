@@ -13,7 +13,7 @@ import java.util.List;
  *
  */
 @RestController
-@RequestMapping("/tags")
+@RequestMapping("/tag")
 @AllArgsConstructor
 public class TagController {
     private ITagService tagService;

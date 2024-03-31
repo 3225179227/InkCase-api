@@ -14,16 +14,8 @@ import java.util.List;
 
 /**
  * 文章
- *
- * @author shimh
- * <p>
- * 2018年1月23日
+ * @Author: lbj
  */
-
-
-/*
-定义了一个接口 ArticleRepository，它继承了 JpaRepository<Article, Integer> 接口。这意味着 ArticleRepository 继承了 Spring Data JPA 提供的通用 CRUD 操作方法，并且指定了实体类型为 Article，主键类型为 Integer。
-*/
 
 
 @Data
@@ -52,13 +44,13 @@ public class Article implements Serializable {
     @TableField(exist = false)
     private User author;
 
-    private int authorId;
+    private Long authorId;
 
 //    @OneToOne(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, orphanRemoval = true)
     @TableField(exist = false)
     private ArticleBody body;
 
-    private int bodyId;
+    private Long bodyId;
 
 
 //    @ManyToOne(fetch = FetchType.LAZY)
@@ -67,7 +59,7 @@ public class Article implements Serializable {
     @TableField(exist = false)
     private Category category;
 
-    private int categoryId;
+    private Long categoryId;
 
 //    @ManyToMany(fetch = FetchType.LAZY)
 //    @JoinTable(name = "me_article_tag",

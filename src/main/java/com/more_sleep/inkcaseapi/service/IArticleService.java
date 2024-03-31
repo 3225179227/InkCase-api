@@ -29,4 +29,6 @@ public interface IArticleService extends IService<Article> {
     List<Article> getByCategoryId(Long id);
 
     Article getArticleAndAddViews(Integer id);
+
+    Long publishArticle(Article article);
 }

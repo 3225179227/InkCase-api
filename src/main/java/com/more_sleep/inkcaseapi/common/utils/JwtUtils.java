@@ -1,56 +1,108 @@
 package com.more_sleep.inkcaseapi.common.utils;
 
-import io.jsonwebtoken.*;
-import io.jsonwebtoken.security.Keys;
-import lombok.Data;
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import java.util.Base64;
 import java.util.Date;
-/**
- *
- */
-@Data
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
+
 @Component
-@ConfigurationProperties(prefix = "lbj.jwt")
 public class JwtUtils {
+    private String jwtSigningKey = "secret";
 
-    private long expire;
-    private String secret;
-    private String header;
-
-    // 生成JWT
-    public String generateToken(String username) {
-
-        Date nowDate = new Date();
-        Date expireDate = new Date(nowDate.getTime() + 1000 * expire);
-
-        return Jwts.builder()
-                .setHeaderParam("typ", "JWT")
-                .setSubject(username)
-                .setIssuedAt(nowDate)
-                .setExpiration(expireDate)    // 7天过期
-                .signWith(Keys.hmacShaKeyFor(Base64.getDecoder().decode(secret)))
-                .compact();
+    /**
+     * 从JWT中提取用户名
+     */
+    public String extractUsername(String token){
+        return extractClaim(token,Claims::getSubject);
     }
 
-    // 解析JWT
-    public Claims getClaimsByToken(String jwt) {
+    /**
+     * 从JWT中提取过期时间
+     */
+    public Date extractExpiration(String token){
+        return extractClaim(token,Claims::getExpiration);
+    }
+
+    /**
+     * 检查JWT是否包含指定的声明
+     */
+    public boolean hasClaim(String token,String claimName){
+        final Claims claims = extractAllClaims(token);
+        return claims.get(claimName) !=null;
+    }
+
+    /**
+     * 从JWT中提取指定声明
+     */
+    public <T> T extractClaim(String token, Function<Claims,T> claimsResolver){
+        final Claims claims = extractAllClaims(token);
+        return claimsResolver.apply(claims);
+    }
+
+    /**
+     * 从JWT中提取所有声明
+     */
+    public Claims extractAllClaims(String token){
         try {
-            return Jwts.parser()
-                    .setSigningKey(secret)
-                    .parseClaimsJws(jwt)
-                    .getBody();
+            return Jwts.parser().setSigningKey(jwtSigningKey).parseClaimsJws(token).getBody();
         } catch (Exception e) {
-            return null;
+            e.printStackTrace();
+            // return a default Claims object or null
         }
+        return null;
     }
 
-    // 判断JWT是否过期
-    public boolean isTokenExpired(Claims claims) {
-        return claims.getExpiration().before(new Date());
+    /**
+     * 检查JWT是否已过期
+     */
+    public Boolean isTokenExpired(String token){
+        Date expirationDate = extractExpiration(token);
+        if (expirationDate == null) {
+            return true; // or false based on your requirements
+        }
+        return expirationDate.before(new Date());
     }
 
+    /**
+     * 生成JWT
+     */
+    public String generateToken(UserDetails userDetails){
+        Map<String,Object> claims = new HashMap<>();
+        return createToken(claims,userDetails);
+    }
+
+    /**
+     * 生成带有指定声明的JWT
+     */
+    public String generateToken(UserDetails userDetails,Map<String,Object>claims){
+        return createToken(claims,userDetails);
+    }
+
+    /**
+     * 创建JWT
+     * claims是JWT的声明部分，包含用户的角色等信息
+     */
+    public String createToken(Map<String, Object> claims, UserDetails userDetails){
+        return Jwts.builder().setClaims(claims)
+                .setSubject(userDetails.getUsername())
+                .claim("authorities",userDetails.getAuthorities())
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + TimeUnit.HOURS.toMillis(24)))
+                .signWith(SignatureAlgorithm.HS256,jwtSigningKey).compact();
+    }
+
+    /**
+     * 验证JWT是否有效
+     */
+    public Boolean isTokenValid(String token,UserDetails userDetails){
+        final String username = extractUsername(token);
+        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+    }
 }
-

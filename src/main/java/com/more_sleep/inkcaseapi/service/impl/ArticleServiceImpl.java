@@ -4,16 +4,20 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.more_sleep.inkcaseapi.entity.Article;
+import com.more_sleep.inkcaseapi.entity.User;
 import com.more_sleep.inkcaseapi.entity.vo.DataVo;
 import com.more_sleep.inkcaseapi.mapper.IArticleBodyMapper;
 import com.more_sleep.inkcaseapi.mapper.IArticleMapper;
 import com.more_sleep.inkcaseapi.mapper.ICategoryMapper;
 import com.more_sleep.inkcaseapi.mapper.IUserMapper;
 import com.more_sleep.inkcaseapi.service.IArticleService;
+import com.more_sleep.inkcaseapi.service.IUserService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,6 +30,7 @@ public class ArticleServiceImpl extends ServiceImpl<IArticleMapper, Article> imp
     private final IArticleBodyMapper articleBodyMapper;
     private final ICategoryMapper categoryMapper;
     private final IUserMapper userMapper;
+    private final IUserService userService;
     @Override
     public Page<Article> pageList(Page<Article> pageInfo, LambdaQueryWrapper<Article> queryWrapper) {
 
@@ -118,6 +123,7 @@ public class ArticleServiceImpl extends ServiceImpl<IArticleMapper, Article> imp
     }
 
     @Override
+    @Transactional
     public Article getArticleAndAddViews(Integer id) {
         Article article = articleMapper.selectById(id);
         article.setViewCounts(article.getViewCounts() + 1);
@@ -126,5 +132,18 @@ public class ArticleServiceImpl extends ServiceImpl<IArticleMapper, Article> imp
         article.setBody(articleBodyMapper.selectById(article.getBodyId()));
         article.setCategory(categoryMapper.selectById(article.getCategoryId()));
         return article;
+    }
+
+    @Override
+    public Long publishArticle(Article article) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User user = userService.getByName(username);
+        if (null != user) {
+            article.setAuthor(user);
+            article.setAuthorId(user.getId());
+        }
+        articleMapper.insert(article);
+        return article.getId();
     }
 }

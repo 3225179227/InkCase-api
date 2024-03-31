@@ -88,4 +88,11 @@ public class ArticleController {
 
         return R.success(article);
     }
+
+    @PostMapping("/public")
+    public R<Long> publicArticle(@RequestBody Article article) {
+
+        Long articleId = articleService.publishArticle(article);
+        return R.success(articleId);
+    }
 }

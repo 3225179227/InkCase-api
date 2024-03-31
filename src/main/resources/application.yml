@@ -20,6 +20,26 @@ spring:
     username: root
     password: ZlmLbj123
   security:
+#    oauth2:
+#      client:
+#        registration:
+#          login-client:
+#            client-id: inkCase
+#            client-secret: inkCase
+#            provider: inkCase
+#            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+#            scope: read,write
+#            client-authentication-method: basic
+#            authorization-grant-type: authorization_code
+#            client-name: inkCase
+#
+#      authorization-server:
+#        client:
+#          client-id: inkCase
+#          client-secret: inkCase
+#          authorization-grant-types: password,authorization_code,refresh_token
+#          redirect-uri: http://localhost:8080/login/oauth2/code/
+#          scopes: read,write
     user:
       name: admin
       password: admin

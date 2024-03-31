@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 
 import com.more_sleep.inkcaseapi.common.R;
 import com.more_sleep.inkcaseapi.entity.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 public interface IUserService extends IService<User> {
@@ -12,4 +13,6 @@ public interface IUserService extends IService<User> {
     User getByName(String username);
 
     User getByEmail(String email);
+
+    UserDetails loadUserByUsername(String s);
 }
