@@ -10,4 +10,6 @@ import java.util.List;
  */
 public interface ICommentService extends IService<Comment> {
     List<Comment> getByArticleId(Long id);
+
+    Comment saveCommentAndChangeCounts(Comment comment);
 }

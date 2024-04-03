@@ -50,4 +50,9 @@ public class CommentController {
         articleService.updateById(article);
         return R.success(comment);
     }
+    @PostMapping("/create/change")
+    public R<Comment> createChange(@RequestBody Comment comment) {
+        Comment savedComment = commentService.saveCommentAndChangeCounts(comment);
+        return R.success(savedComment);
+    }
 }

@@ -75,9 +75,7 @@ public class Article implements Serializable {
     @TableField(exist = false)
     private List<Comment> comments;
 
-
     private int commentCounts;
-
 
     private int viewCounts;
 
@@ -86,13 +84,11 @@ public class Article implements Serializable {
      */
     private int weight = Article_Common;
 
-
     /**
      * 创建时间
      */
 //    @JSONField(format = "yyyy.MM.dd HH:mm")
     private Date createDate;
 
-
-
+    private String tagsStr;
 }

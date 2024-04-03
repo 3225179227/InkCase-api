@@ -105,6 +105,7 @@ public class ArticleServiceImpl extends ServiceImpl<IArticleMapper, Article> imp
     }
 
     @Override
+    @Transactional
     public void updateByIdWithAll(Article article) {
         articleMapper.updateById(article);
         articleBodyMapper.updateById(article.getBody());

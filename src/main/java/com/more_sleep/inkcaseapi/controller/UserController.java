@@ -27,10 +27,6 @@ public class UserController {
 
     private final IUserService userService;
 
-    private final RedisTemplate<Object, Object> redisTemplate;
-
-
-
     @GetMapping("/user-info")
     public R<User> getUserById() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
