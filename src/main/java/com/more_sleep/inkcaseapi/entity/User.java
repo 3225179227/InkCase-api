@@ -1,8 +1,6 @@
 package com.more_sleep.inkcaseapi.entity;
 
-import com.alibaba.fastjson.annotation.JSONField;
 import com.alibaba.fastjson.annotation.JSONType;
-import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -15,7 +13,6 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -33,7 +30,7 @@ public class User implements Serializable {
     @Serial
     private static final long serialVersionUID = -4454737765850239378L;
 
-    @JsonIgnore
+//    @JsonIgnore
     private Long id;
 
     // 用户名
@@ -45,7 +42,7 @@ public class User implements Serializable {
      */
     // 密码
     @NotBlank
-    @JsonIgnore
+//    @JsonIgnore
     private String password;
 
     /**
@@ -73,7 +70,7 @@ public class User implements Serializable {
      */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @TableField(fill = FieldFill.INSERT)
-    private LocalDateTime createDate;
+    private Date createDate;
 
 
     /**

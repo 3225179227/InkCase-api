@@ -1,6 +1,5 @@
 package com.more_sleep.inkcaseapi.entity;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;

@@ -16,7 +16,7 @@ public interface IArticleService extends IService<Article> {
 
     Article getByIdWithBody(Long id);
 
-    List<Article> listWithAll(Integer pageNumber, Integer pageSize, Integer year, Integer month);
+    List<Article> listWithAll(Integer pageNumber, Integer pageSize, Integer year, Integer month, Long categoryId);
 
     List<Article> getHot(Integer limit);
 
@@ -28,7 +28,7 @@ public interface IArticleService extends IService<Article> {
 
     List<Article> getByCategoryId(Long id);
 
-    Article getArticleAndAddViews(Integer id);
+    Article getArticleAndAddViews(Long id);
 
     Long publishArticle(Article article);
 }

@@ -3,7 +3,7 @@ package com.more_sleep.inkcaseapi.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.more_sleep.inkcaseapi.common.R;
-import com.more_sleep.inkcaseapi.common.config.DBUserDetailsManager;
+import com.more_sleep.inkcaseapi.config.DBUserDetailsManager;
 import com.more_sleep.inkcaseapi.entity.User;
 import com.more_sleep.inkcaseapi.mapper.IUserMapper;
 import com.more_sleep.inkcaseapi.service.IUserService;
@@ -11,7 +11,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -28,7 +28,6 @@ public class UserServiceImpl extends ServiceImpl<IUserMapper, User> implements I
 
     private final IUserMapper userDao;
 
-//    private final PasswordEncoder passwordEncoder;
 
 
     @Override
@@ -40,6 +39,11 @@ public class UserServiceImpl extends ServiceImpl<IUserMapper, User> implements I
         } else {
             //验证邮箱验证码是否正确
             ValueOperations<Object, Object> valueOperations = redisTemplate.opsForValue();
+
+            if (user.getEmail() == null) {
+                throw new IllegalArgumentException("Email must not be null");
+            }
+
             Object codeInRedis = valueOperations.get(user.getEmail());
 
             if (codeInRedis == null || !codeInRedis.equals(code)) {
@@ -49,11 +53,9 @@ public class UserServiceImpl extends ServiceImpl<IUserMapper, User> implements I
                 user.setAdmin(false);
 
                 UserDetails userDetails = org.springframework.security.core.userdetails.User
-                        .withDefaultPasswordEncoder()
-//                        .builder()
-//                        .password(passwordEncoder.encode(user.getPassword()))
-                        .username(user.getAccount())
+                        .withUsername(user.getAccount())
                         .password(user.getPassword())
+                        .passwordEncoder(new BCryptPasswordEncoder()::encode)
                         .roles("USER")
                         .build();
                 /* 为什么调用createUser方法，而不是save方法？

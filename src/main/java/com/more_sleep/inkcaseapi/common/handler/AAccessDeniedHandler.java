@@ -10,7 +10,6 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 
 import java.io.IOException;
-import java.util.HashMap;
 
 /**
  * 权限不足时的处理

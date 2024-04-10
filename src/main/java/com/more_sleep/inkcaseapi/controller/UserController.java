@@ -2,13 +2,10 @@ package com.more_sleep.inkcaseapi.controller;
 
 
 
-import com.alibaba.fastjson.annotation.JSONType;
 import com.more_sleep.inkcaseapi.common.R;
 import com.more_sleep.inkcaseapi.entity.User;
 import com.more_sleep.inkcaseapi.service.IUserService;
 import lombok.AllArgsConstructor;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;

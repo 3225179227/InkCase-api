@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.more_sleep.inkcaseapi.entity.Article;
+import com.more_sleep.inkcaseapi.entity.ArticleBody;
 import com.more_sleep.inkcaseapi.entity.User;
 import com.more_sleep.inkcaseapi.entity.vo.DataVo;
 import com.more_sleep.inkcaseapi.mapper.IArticleBodyMapper;
@@ -13,6 +14,7 @@ import com.more_sleep.inkcaseapi.mapper.IUserMapper;
 import com.more_sleep.inkcaseapi.service.IArticleService;
 import com.more_sleep.inkcaseapi.service.IUserService;
 import lombok.AllArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -58,15 +60,16 @@ public class ArticleServiceImpl extends ServiceImpl<IArticleMapper, Article> imp
     }
 
     @Override
-    public List<Article> listWithAll(Integer pageNumber, Integer pageSize, Integer year, Integer month) {
+    public List<Article> listWithAll(Integer pageNumber, Integer pageSize, Integer year, Integer month, Long categoryId) {
         Page<Article> pageInfo = new Page<>(pageNumber, pageSize);
         System.out.println(pageNumber + " " +pageSize);
         LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.orderBy(true, true, Article::getCreateDate);
+        queryWrapper.orderBy(true, false, Article::getCreateDate);
 //        queryWrapper.eq(year != null, Article::getCreateDate, year);
 //        queryWrapper.eq(month != null, Article::getCreateDate, month);
         queryWrapper.apply(year != null, "YEAR(create_date) = {0}", year);
         queryWrapper.apply(month != null, "MONTH(create_date) = {0}", month);
+        queryWrapper.eq(categoryId != null, Article::getCategoryId, categoryId);
         articleMapper.selectPage(pageInfo, queryWrapper);
 
         List<Article> list = pageInfo.getRecords();
@@ -107,8 +110,14 @@ public class ArticleServiceImpl extends ServiceImpl<IArticleMapper, Article> imp
     @Override
     @Transactional
     public void updateByIdWithAll(Article article) {
+        // 根据articleId查询body的Id
+        Article oldArticle = getById(article.getId());
+        article.setBodyId(oldArticle.getBodyId());
+        ArticleBody newBody = article.getBody();
+        newBody.setId(oldArticle.getBodyId());
+        System.out.println("lbj==" + article);
         articleMapper.updateById(article);
-        articleBodyMapper.updateById(article.getBody());
+        articleBodyMapper.updateById(newBody);
         categoryMapper.updateById(article.getCategory());
     }
 
@@ -125,8 +134,13 @@ public class ArticleServiceImpl extends ServiceImpl<IArticleMapper, Article> imp
 
     @Override
     @Transactional
-    public Article getArticleAndAddViews(Integer id) {
+    public Article getArticleAndAddViews(Long id) {
         Article article = articleMapper.selectById(id);
+        System.out.println("id:  "+id);
+        System.out.println("article:  "+article);
+        if (article == null) {
+            throw new IllegalArgumentException("Article with id " + id + " not found");
+        }
         article.setViewCounts(article.getViewCounts() + 1);
         articleMapper.updateById(article);
         article.setAuthor(userMapper.selectById(article.getAuthorId()));
@@ -140,10 +154,18 @@ public class ArticleServiceImpl extends ServiceImpl<IArticleMapper, Article> imp
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         User user = userService.getByName(username);
+        article.setCategoryId(
+                article.getCategory().getId()
+        );
+        // 如何拿到body的id
+        articleBodyMapper.insert(article.getBody());
+        System.out.println("bodyID: "+article.getBody().getId());
+        article.setBodyId(article.getBody().getId());
         if (null != user) {
             article.setAuthor(user);
             article.setAuthorId(user.getId());
         }
+
         articleMapper.insert(article);
         return article.getId();
     }

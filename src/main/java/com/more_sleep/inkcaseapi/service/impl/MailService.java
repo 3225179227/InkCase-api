@@ -8,7 +8,6 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
-
 import java.util.Date;
 
 @Slf4j
@@ -70,7 +69,7 @@ public class MailService {
             mimeMessageHelper.setSentDate(new Date());
 
             // 发送邮件
-//            javaMailSender.send(mimeMessageHelper.getMimeMessage());
+            javaMailSender.send(mimeMessageHelper.getMimeMessage());
             System.out.println("发送邮件成功：" + sendMailer + " -> " + to);
         } catch (MessagingException e) {
             log.error(e.getMessage());

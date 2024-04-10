@@ -10,7 +10,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -18,9 +17,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
@@ -51,6 +47,12 @@ public class JwtAthFilter extends OncePerRequestFilter {
         // 提取 JWT Token，并从中获取用户邮箱
         jwtToken = authHeader.substring(7);
         userEmail = jwtUtils.extractUsername(jwtToken);
+
+        // 一些路径不需要验证
+        if (request.getRequestURI().contains("/login") || request.getRequestURI().contains("/article/**") || request.getRequestURI().contains("/category/**")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
 
         // 如果用户邮箱不为空且未进行身份验证
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {

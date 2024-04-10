@@ -41,8 +41,12 @@ public class JwtUtils {
     /**
      * 从JWT中提取指定声明
      */
+
     public <T> T extractClaim(String token, Function<Claims,T> claimsResolver){
         final Claims claims = extractAllClaims(token);
+        if (claims == null) {
+            return null;
+        }
         return claimsResolver.apply(claims);
     }
 
@@ -50,11 +54,13 @@ public class JwtUtils {
      * 从JWT中提取所有声明
      */
     public Claims extractAllClaims(String token){
+        if (token == null) {
+            return null;
+        }
         try {
             return Jwts.parser().setSigningKey(jwtSigningKey).parseClaimsJws(token).getBody();
         } catch (Exception e) {
             e.printStackTrace();
-            // return a default Claims object or null
         }
         return null;
     }

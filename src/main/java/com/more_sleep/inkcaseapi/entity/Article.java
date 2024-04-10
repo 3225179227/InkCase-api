@@ -1,5 +1,6 @@
 package com.more_sleep.inkcaseapi.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import jakarta.validation.constraints.NotBlank;
@@ -30,6 +31,7 @@ public class Article implements Serializable {
 
     @Serial
     private static final long serialVersionUID = -4470366380115322213L;
+
 
     private Long id;
 
@@ -88,6 +90,7 @@ public class Article implements Serializable {
      * 创建时间
      */
 //    @JSONField(format = "yyyy.MM.dd HH:mm")
+    @TableField(fill = FieldFill.INSERT)
     private Date createDate;
 
     private String tagsStr;

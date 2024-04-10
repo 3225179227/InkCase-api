@@ -1,4 +1,4 @@
-package com.more_sleep.inkcaseapi.common.config;
+package com.more_sleep.inkcaseapi.config;
 
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;

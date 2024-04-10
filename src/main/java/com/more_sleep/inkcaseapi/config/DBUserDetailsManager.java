@@ -1,17 +1,14 @@
-package com.more_sleep.inkcaseapi.common.config;
+package com.more_sleep.inkcaseapi.config;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.more_sleep.inkcaseapi.entity.User;
 import com.more_sleep.inkcaseapi.mapper.IUserMapper;
 import jakarta.annotation.Resource;
-import com.more_sleep.inkcaseapi.entity.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsPasswordService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.Collection;
 
 /**
  * 从数据库中加载用户信息

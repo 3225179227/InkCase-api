@@ -2,7 +2,6 @@ package com.more_sleep.inkcaseapi.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,11 +29,13 @@ public class Category implements Serializable {
     @Serial
     private static final long serialVersionUID = 5025313969040054182L;
 
-    @JsonIgnore
+//    @JsonIgnore
+
     private Long id;
 
     @NotBlank
     @TableField("categoryname")
+
     private String categoryName;
 
     private String description;

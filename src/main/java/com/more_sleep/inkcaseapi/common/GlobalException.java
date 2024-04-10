@@ -1,5 +1,6 @@
 package com.more_sleep.inkcaseapi.common;
 
+import com.more_sleep.inkcaseapi.entity.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -32,6 +33,13 @@ public class GlobalException {
             return R.error(msg);
         }
         return R.error(Code.USER_HAS_EXISTED);
+    }
+    @ExceptionHandler(IllegalArgumentException.class)
+    public R<User> IllexceptionHandler(IllegalArgumentException ex) {
+        log.error(ex.getMessage());
+        if (ex.getMessage().contains("Duplicate entry")) {
+        }
+        return R.success(null);
     }
 
     @ExceptionHandler(CustomException.class)

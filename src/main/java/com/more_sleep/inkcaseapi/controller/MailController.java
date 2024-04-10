@@ -1,6 +1,7 @@
 package com.more_sleep.inkcaseapi.controller;
 
 
+import com.more_sleep.inkcaseapi.common.R;
 import com.more_sleep.inkcaseapi.service.impl.MailService;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -24,7 +25,7 @@ public class MailController {
     }
 
     @PostMapping("/sendmail")
-    public void sendTextMail(@RequestBody Map<String, String> map){
+    public R<String> sendTextMail(@RequestBody Map<String, String> map){
 //        System.out.println(name + to);
         String to = map.get("to");
         String code = String.valueOf(Math.random()).substring(2,8);
@@ -39,5 +40,6 @@ public class MailController {
         String subject = "Dear user:";
         String text = "Your code:" + code;
         mailService.sendTextMailMessage(to,subject,text);
+        return R.success("邮件发送成功");
     }
 }

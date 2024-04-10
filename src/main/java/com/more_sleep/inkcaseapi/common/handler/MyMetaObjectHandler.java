@@ -6,6 +6,7 @@ import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 
 /**
@@ -19,8 +20,11 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
     public void insertFill(MetaObject metaObject) {
         log.info("common insert");
         log.info(metaObject.toString());
-        
-        metaObject.setValue("createDate", LocalDateTime.now());
+        // 数据类型是Date
+        // this.setFieldValByName("createDate", new Date(), metaObject);
+        Date date = new Date();
+        date.setHours(date.getHours() + 9);
+        metaObject.setValue("createDate", date);
     }
 
     @Override

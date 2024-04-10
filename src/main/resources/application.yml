@@ -79,6 +79,12 @@ spring:
   cache:
     redis:
       time-to-live: 180000
+  mvc:
+    static-path-pattern: /**
+
+  web:
+    resources:
+      static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,file:${me.upload.path}
 
 mybatis-plus:
   configuration:
@@ -90,3 +96,10 @@ mybatis-plus:
     db-config:
       # 雪花算法
       id-type: ASSIGN_ID
+
+me:
+  upload:
+    path: D:/img/
+#  浏览量
+  view:
+    count: 3

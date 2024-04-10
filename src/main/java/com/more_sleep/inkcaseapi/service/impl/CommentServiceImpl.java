@@ -17,7 +17,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -35,6 +34,9 @@ public class CommentServiceImpl extends ServiceImpl<ICommentMapper, Comment> imp
     public List<Comment> getByArticleId(Long id) {
         LambdaQueryWrapper<Comment> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(Comment::getArticleId, id);
+        queryWrapper.eq(Comment::getLevel, "0");
+        // 根据创建时间倒序
+        queryWrapper.orderByDesc(Comment::getCreateDate);
         return list(queryWrapper).stream().peek(comment -> {
             // 通过articleId查询Article
             comment.setArticle(articleMapper.selectById(comment.getArticleId()));
@@ -44,6 +46,20 @@ public class CommentServiceImpl extends ServiceImpl<ICommentMapper, Comment> imp
             if (comment.getParentId() != null) {
                 comment.setParent(commentMapper.selectById(comment.getParentId()));
             }
+            // 通过toUserId查询User
+            if (comment.getToUserId() != null) {
+                comment.setToUser(userMapper.selectById(comment.getToUserId()));
+            }
+            // 查询子评论
+            LambdaQueryWrapper<Comment> queryWrapper1 = new LambdaQueryWrapper<>();
+            queryWrapper1.eq(Comment::getParentId, comment.getId());
+            List<Comment> children = list(queryWrapper1).stream().peek(child -> {
+                child.setAuthor(userMapper.selectById(child.getAuthorId()));
+                if (child.getToUserId() != null) {
+                    child.setToUser(userMapper.selectById(child.getToUserId()));
+                }
+            }).toList();
+            comment.setChildrens(children);
         }).toList();
     }
 
@@ -51,15 +67,17 @@ public class CommentServiceImpl extends ServiceImpl<ICommentMapper, Comment> imp
     @Transactional
     public Comment saveCommentAndChangeCounts(Comment comment) {
         int count = 1;
-        Article a = articleMapper.selectById(comment.getArticle().getId());
+        Article a = articleMapper.selectById(comment.getArticleId());
         a.setCommentCounts(a.getCommentCounts() + count);
+
+        articleMapper.updateById(a);
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         User user = userService.getByName(username);
 
         comment.setAuthor(user);
-        comment.setCreateDate(new Date());
+//        comment.setCreateDate(new Date());
 
         //设置level
         if(null == comment.getParent()){

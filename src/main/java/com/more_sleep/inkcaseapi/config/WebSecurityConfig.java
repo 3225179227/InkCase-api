@@ -1,45 +1,33 @@
-package com.more_sleep.inkcaseapi.common.config;
+package com.more_sleep.inkcaseapi.config;
 
 import com.alibaba.fastjson.JSON;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.more_sleep.inkcaseapi.common.Code;
 import com.more_sleep.inkcaseapi.common.R;
-import com.more_sleep.inkcaseapi.common.handler.*;
+import com.more_sleep.inkcaseapi.common.handler.AAuthenticationFailureHandler;
 import com.more_sleep.inkcaseapi.common.utils.JwtUtils;
 import com.more_sleep.inkcaseapi.filter.JwtAthFilter;
-import com.more_sleep.inkcaseapi.mapper.IUserMapper;
 import com.more_sleep.inkcaseapi.service.IUserService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.ObjectPostProcessor;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.jwt.JwtDecoders;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -71,15 +59,18 @@ public class WebSecurityConfig {
 
                         // 开放注册路径
                         .requestMatchers("/user/register").permitAll()
+                        .requestMatchers("/user/user-info").permitAll()
 
                         // 开放邮箱路径
                         .requestMatchers("/mail/sendmail").permitAll()
 
                         // 开放文章路径
                         .requestMatchers("/article/**").permitAll()
+                        .requestMatchers("/category/**").permitAll()
 
                         // 发布文章需要USER或ADMIN权限
                         .requestMatchers("/article/publish").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/inkCase-api/article/publish").hasAnyRole("USER", "ADMIN")
 
                         // tag路径需要USER权限
                         .requestMatchers("/tag/**").hasAnyRole("USER", "ADMIN")
@@ -111,7 +102,7 @@ public class WebSecurityConfig {
 //                            userDetails.getAuthorities().forEach(authority -> roles.add(authority.getAuthority()));
 //                            claims.put("roles", roles);
 
-                            String json = JSON.toJSONString(R.success(jwtUtils.generateToken(userDetails),"登录成功"));
+                            String json = JSON.toJSONString(R.success(Map.of("Oauth-Token",jwtUtils.generateToken(userDetails)),"登录成功"));
                             response.setContentType("application/json;charset=utf-8");
                             response.getWriter().write(json);
                         })
@@ -259,4 +250,6 @@ public class WebSecurityConfig {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
+
+
 }

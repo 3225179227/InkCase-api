@@ -1,11 +1,11 @@
 package com.more_sleep.inkcaseapi.entity;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.more_sleep.inkcaseapi.common.UserDeserializer;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -33,6 +33,8 @@ public class Comment implements Serializable {
     @Serial
     private static final long serialVersionUID = 7346271954336613146L;
 
+    private Long id;
+
     @NotBlank
     private String content;
 
@@ -52,6 +54,8 @@ public class Comment implements Serializable {
      * 创建时间
      */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    // 自动填充
+    @TableField(fill = FieldFill.INSERT)
     private Date createDate;
 
 
@@ -82,6 +86,7 @@ public class Comment implements Serializable {
 
 //    @ManyToOne(fetch = FetchType.LAZY)
     @TableField(exist = false)
+    @JsonDeserialize(using = UserDeserializer.class)
     private User toUser;
 
     @TableField("to_uid")
