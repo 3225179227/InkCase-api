@@ -46,9 +46,11 @@ public class WebSecurityConfig {
     private final JwtAthFilter jwtAthFilter;
     private final IUserService userService;
     private final JwtUtils jwtUtils;
+    private final DBUserDetailsManager userDetailsService;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
         // 配置请求授权
         http.authorizeRequests(
                 authorizeRequests -> authorizeRequests
@@ -89,8 +91,8 @@ public class WebSecurityConfig {
                         .loginPage("/login")
                         // 无需登录认证
                         .permitAll()
-                        .usernameParameter("username")
-                        .passwordParameter("password")
+//                        .usernameParameter("username")
+//                        .passwordParameter("password")
                         // 登录成功处理器
                         .successHandler((request, response, authentication)->{
                             response.setContentType("application/json;charset=UTF-8");
@@ -184,7 +186,7 @@ public class WebSecurityConfig {
     @Bean
     public AuthenticationProvider authenticationProvider() {
         final DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        authenticationProvider.setUserDetailsService(userDetailsService());
+        authenticationProvider.setUserDetailsService(userDetailsService);
         authenticationProvider.setPasswordEncoder(passwordEncoder());
         return authenticationProvider;
     }
@@ -199,10 +201,13 @@ public class WebSecurityConfig {
         return config.getAuthenticationManager();
     }
 
-    @Bean
-    public UserDetailsService userDetailsService() {
-        return userService::loadUserByUsername;
-    }
+
+    // 配置用户信息服务
+    // 通过数据库查询用户信息
+//    @Bean
+//    public UserDetailsService userDetailsService() {
+//        return userService::loadUserByUsername;
+//    }
 
     /*@Bean
     public UserDetailsService userDetailsService() {

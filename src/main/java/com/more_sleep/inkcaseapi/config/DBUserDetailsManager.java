@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.more_sleep.inkcaseapi.entity.User;
 import com.more_sleep.inkcaseapi.mapper.IUserMapper;
 import jakarta.annotation.Resource;
+import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsPasswordService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -16,10 +18,10 @@ import org.springframework.stereotype.Component;
  * @Date: 2024/3/24
  */
 @Component
+@AllArgsConstructor
 public class DBUserDetailsManager implements UserDetailsManager, UserDetailsPasswordService {
 
-    @Resource
-    private IUserMapper userMapper;
+    private final IUserMapper userMapper;
 
     @Override
     public UserDetails updatePassword(UserDetails user, String newPassword) {
@@ -82,6 +84,7 @@ public class DBUserDetailsManager implements UserDetailsManager, UserDetailsPass
                     true,
                     true,
                     authorities);*/
+            System.out.println(user);
             return org.springframework.security.core.userdetails.User.withUsername(user.getAccount())
                     .password(user.getPassword())
                     .roles(user.getAdmin() ? "ADMIN" : "USER")
