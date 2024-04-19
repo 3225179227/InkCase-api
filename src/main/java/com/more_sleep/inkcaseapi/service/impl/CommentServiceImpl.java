@@ -87,6 +87,8 @@ public class CommentServiceImpl extends ServiceImpl<ICommentMapper, Comment> imp
                 comment.setLevel("1");
             }else{
                 comment.setLevel("2");
+                System.out.println("lbj!!!:" + comment.getToUser().getId());
+                comment.setToUserId(comment.getToUser().getId());
             }
         }
         save(comment);

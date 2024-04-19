@@ -111,4 +111,26 @@ public class JwtUtils {
         final String username = extractUsername(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
+
+    // 生成刷新令牌
+    public String generateRefreshToken(UserDetails userDetails) {
+        Map<String, Object> claims = new HashMap<>();
+        return createRefreshToken(claims, userDetails);
+    }
+
+    // 创建刷新令牌
+    private String createRefreshToken(Map<String, Object> claims, UserDetails userDetails) {
+        return Jwts.builder().setClaims(claims)
+                .setSubject(userDetails.getUsername())
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                // 刷新令牌的过期时间通常比 JWT 的过期时间长
+                .setExpiration(new Date(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(7)))
+                .signWith(SignatureAlgorithm.HS256, jwtSigningKey).compact();
+    }
+
+    // 验证刷新令牌是否有效
+    public Boolean isRefreshTokenValid(String token, UserDetails userDetails) {
+        final String username = extractUsername(token);
+        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+    }
 }

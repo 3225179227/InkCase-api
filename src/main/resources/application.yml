@@ -9,8 +9,6 @@ lbj:
     expire: 604800 # 7天，s为单位
     secret: TUrnEmnc2V6iJA/G0o5FZnobyB6HsoKzPr94LrgVTaNFNbdvoxm17QR8ufE1TKOgwt9RzIsIRUnCAPuI0MmHaQ==
 
-
-
 spring:
   application:
     name: inkCase-api
@@ -102,4 +100,4 @@ me:
     path: D:/img/
 #  浏览量
   view:
-    count: 3
+    count: 30

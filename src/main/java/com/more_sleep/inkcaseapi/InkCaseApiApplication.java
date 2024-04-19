@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @SpringBootApplication
 @EnableTransactionManagement
 @EnableCaching
-@EnableKnife4j
 public class InkCaseApiApplication {
     public static void main(String[] args) {
         SpringApplication.run(InkCaseApiApplication.class, args);

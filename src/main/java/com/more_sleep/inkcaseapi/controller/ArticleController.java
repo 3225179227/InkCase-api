@@ -55,7 +55,7 @@ public class ArticleController {
     }
 
     @GetMapping
-    @Cacheable(value = "article", key = "(#year < T(java.time.LocalDate).now().getYear() || (#year == T(java.time.LocalDate).now().getYear() && #month <= T(java.time.LocalDate).now().getMonthValue())) ? #pageNumber+'_'+#pageSize+'_'+#year+'_'+#month : 'noCache'")
+    @Cacheable(value = "article", key = "(#year < T(java.time.LocalDate).now().getYear() || (#year == T(java.time.LocalDate).now().getYear() && #month <= T(java.time.LocalDate).now().getMonthValue())) ? #pageNumber+'_'+#pageSize+'_'+#year+'_'+#month+'_'+#categoryId : 'noCache'")
     public R<List<Article>> list(Integer pageNumber, Integer pageSize,
                                  Integer year, Integer month, Long categoryId) {
         return R.success(articleService.listWithAll(pageNumber, pageSize, year, month, categoryId));
@@ -86,7 +86,7 @@ public class ArticleController {
     @DeleteMapping("/{id}")
     @CacheEvict(value = {"article"}, key = "'view_' + #id")
     public R<String> delete(@PathVariable Long id) {
-        articleService.removeById(id);
+        articleService.removeByIdWithAll(id);
         return R.success("删除成功");
     }
 
@@ -109,6 +109,7 @@ public class ArticleController {
     }
 
     @PostMapping("/publish")
+    @CacheEvict(value = {"article"}, allEntries = true)
     public R<Map> publicArticle(@RequestBody Article article) {
         // 如果id为空，说明是新增
         Long articleId = null;
@@ -124,4 +125,6 @@ public class ArticleController {
 
         return R.success(Map.of("articleId", articleId));
     }
+
+
 }

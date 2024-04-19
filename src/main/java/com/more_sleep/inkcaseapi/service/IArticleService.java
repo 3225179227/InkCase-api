@@ -31,4 +31,6 @@ public interface IArticleService extends IService<Article> {
     Article getArticleAndAddViews(Long id);
 
     Long publishArticle(Article article);
+
+    void removeByIdWithAll(Long id);
 }

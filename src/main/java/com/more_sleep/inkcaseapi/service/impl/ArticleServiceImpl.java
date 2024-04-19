@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.more_sleep.inkcaseapi.entity.Article;
 import com.more_sleep.inkcaseapi.entity.ArticleBody;
+import com.more_sleep.inkcaseapi.entity.Comment;
 import com.more_sleep.inkcaseapi.entity.User;
 import com.more_sleep.inkcaseapi.entity.vo.DataVo;
 import com.more_sleep.inkcaseapi.mapper.IArticleBodyMapper;
@@ -12,6 +13,7 @@ import com.more_sleep.inkcaseapi.mapper.IArticleMapper;
 import com.more_sleep.inkcaseapi.mapper.ICategoryMapper;
 import com.more_sleep.inkcaseapi.mapper.IUserMapper;
 import com.more_sleep.inkcaseapi.service.IArticleService;
+import com.more_sleep.inkcaseapi.service.ICommentService;
 import com.more_sleep.inkcaseapi.service.IUserService;
 import lombok.AllArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
@@ -33,6 +35,7 @@ public class ArticleServiceImpl extends ServiceImpl<IArticleMapper, Article> imp
     private final ICategoryMapper categoryMapper;
     private final IUserMapper userMapper;
     private final IUserService userService;
+    private final ICommentService commentService;
     @Override
     public Page<Article> pageList(Page<Article> pageInfo, LambdaQueryWrapper<Article> queryWrapper) {
 
@@ -168,5 +171,25 @@ public class ArticleServiceImpl extends ServiceImpl<IArticleMapper, Article> imp
 
         articleMapper.insert(article);
         return article.getId();
+    }
+
+    @Override
+    @Transactional
+    public void removeByIdWithAll(Long id) {
+        Article article = getById(id);
+        LambdaQueryWrapper<Comment> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Comment::getArticleId, id);
+        queryWrapper.eq(Comment::getLevel, 2);
+        commentService.remove(queryWrapper);
+        queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Comment::getArticleId, id);
+        queryWrapper.eq(Comment::getLevel, 1);
+        commentService.remove(queryWrapper);
+        queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Comment::getLevel, 0);
+        queryWrapper.eq(Comment::getArticleId, id);
+        commentService.remove(queryWrapper);
+        articleMapper.deleteById(id);
+        articleBodyMapper.deleteById(article.getBodyId());
     }
 }

@@ -4,6 +4,7 @@ import com.more_sleep.inkcaseapi.common.R;
 import com.more_sleep.inkcaseapi.entity.Article;
 import com.more_sleep.inkcaseapi.entity.Comment;
 import com.more_sleep.inkcaseapi.entity.User;
+
 import com.more_sleep.inkcaseapi.service.IArticleService;
 import com.more_sleep.inkcaseapi.service.ICommentService;
 import com.more_sleep.inkcaseapi.service.IUserService;
@@ -62,6 +63,7 @@ public class CommentController {
         }
         if (comment.getToUser() != null) {
             comment.setLevel("2");
+            comment.setToUserId(comment.getToUser().getId());
         }
         commentService.save(comment);
         Long articleId = comment.getArticleId();
@@ -73,6 +75,7 @@ public class CommentController {
         articleService.updateById(article);
         return R.success(comment);
     }
+
     @PostMapping("/create/change")
     public R<Comment> createChange(@RequestBody Comment comment) {
         Comment savedComment = commentService.saveCommentAndChangeCounts(comment);

@@ -86,7 +86,7 @@ public class Comment implements Serializable {
 
 //    @ManyToOne(fetch = FetchType.LAZY)
     @TableField(exist = false)
-    @JsonDeserialize(using = UserDeserializer.class)
+//    @JsonDeserialize(using = UserDeserializer.class)
     private User toUser;
 
     @TableField("to_uid")

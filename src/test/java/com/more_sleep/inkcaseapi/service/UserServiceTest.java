@@ -20,13 +20,4 @@ public class UserServiceTest {
         System.out.println(userService.list());
     }
 
-    @Test
-    public void user(){
-        User user1 = new User();
-        user1.setId(1L);
-        user1.setAccount("张三");
-        user1.setEmail("123123");
-        user1.setAvatar("456456");
-        System.out.println(JSON.toJSON(user1));
-    }
 }
