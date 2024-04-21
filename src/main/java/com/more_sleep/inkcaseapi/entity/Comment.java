@@ -24,7 +24,7 @@ import java.util.List;
  * 2018年1月30日
  */
 
-@TableName("me_comment")
+@TableName("comment")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

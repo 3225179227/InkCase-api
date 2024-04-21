@@ -23,7 +23,7 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("sys_user")
+@TableName("user")
 @JSONType(includes = {"account", "nickname", "avatar", "email"})
 public class User implements Serializable {
 

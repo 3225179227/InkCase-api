@@ -13,7 +13,7 @@ import java.util.List;
 public interface IArticleMapper extends BaseMapper<Article> {
 
     @Select("select year(create_date) as year,month(create_date) as month,count(*) as count " +
-            "from me_article group by year(create_date),month(create_date)")
+            "from article group by year(create_date),month(create_date)")
     List<DataVo> getWithTime();
 
 }

@@ -14,9 +14,9 @@ spring:
     name: inkCase-api
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/blog?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://110.41.0.92:3306/blog?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
     username: root
-    password: ZlmLbj123
+    password: 123456
   security:
 #    oauth2:
 #      client:
@@ -36,7 +36,7 @@ spring:
 #          client-id: inkCase
 #          client-secret: inkCase
 #          authorization-grant-types: password,authorization_code,refresh_token
-#          redirect-uri: http://localhost:8080/login/oauth2/code/
+#          redirect-uri: http://192.168.37.137:8080/login/oauth2/code/
 #          scopes: read,write
     user:
       name: admin
@@ -70,9 +70,9 @@ spring:
         debug: true
   data:
     redis:
-      host: 127.0.0.1
+      host: 110.41.0.92
       port: 6379
-#      password: 123456
+      password: 123456
       database: 0
   cache:
     redis:
@@ -97,7 +97,7 @@ mybatis-plus:
 
 me:
   upload:
-    path: D:/img/
+    path: /img/
 #  浏览量
   view:
     count: 30

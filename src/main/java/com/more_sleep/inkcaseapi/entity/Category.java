@@ -17,7 +17,7 @@ import java.io.Serializable;
  */
 
 
-@TableName("me_category")
+@TableName("category")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

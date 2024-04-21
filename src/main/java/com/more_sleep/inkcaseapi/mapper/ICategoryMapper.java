@@ -14,11 +14,11 @@ import java.util.List;
  */
 @Mapper
 public interface ICategoryMapper extends BaseMapper<Category> {
-    @Select("select c.*, count(a.category_id) as articles from me_category c "
-            + "left join me_article a on a.category_id = c.id group by c.id")
+    @Select("select c.*, count(a.category_id) as articles from category c "
+            + "left join article a on a.category_id = c.id group by c.id")
     List<CategoryVo> findAllDetail();
 
-    @Select("select c.*, count(a.category_id) as articles from me_category c "
-            + "left join me_article a on a.category_id = c.id where c.id = #{id}")
+    @Select("select c.*, count(a.category_id) as articles from category c "
+            + "left join article a on a.category_id = c.id where c.id = #{id}")
     CategoryVo getWithDetailById(@Param("id") Integer id);
 }

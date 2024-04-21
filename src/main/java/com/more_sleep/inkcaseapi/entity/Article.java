@@ -22,7 +22,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("me_article")
+@TableName("article")
 public class Article implements Serializable {
 
     public static final int Article_TOP = 1;
@@ -69,8 +69,8 @@ public class Article implements Serializable {
 //            inverseJoinColumns = {@JoinColumn(name = "tag_id")})
 
     // 多对多
-    @TableField(exist = false)
-    private List<Tag> tags;
+//    @TableField(exist = false)
+//    private List<Tag> tags;
 
 //    @OneToMany(fetch = FetchType.LAZY, mappedBy = "article", orphanRemoval = true)
 //    @JsonBackReference

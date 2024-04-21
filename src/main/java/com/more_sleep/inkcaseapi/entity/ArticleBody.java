@@ -18,7 +18,7 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("me_article_body")
+@TableName("article_body")
 public class ArticleBody implements Serializable {
 
     @Serial

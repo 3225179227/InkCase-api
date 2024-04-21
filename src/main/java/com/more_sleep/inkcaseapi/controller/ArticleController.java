@@ -55,7 +55,14 @@ public class ArticleController {
     }
 
     @GetMapping
-    @Cacheable(value = "article", key = "(#year < T(java.time.LocalDate).now().getYear() || (#year == T(java.time.LocalDate).now().getYear() && #month <= T(java.time.LocalDate).now().getMonthValue())) ? #pageNumber+'_'+#pageSize+'_'+#year+'_'+#month+'_'+#categoryId : 'noCache'")
+    // @Cacheable的作用是将方法的返回值缓存起来，以便下次使用相同的参数时，可以直接从缓存中获取，而不需要再次执行该方法
+    // value：缓存的名称，必须指定至少一个
+    // key：缓存的key，默认为空，表示使用方法的参数类型及参数值作为key，支持SpEL
+    // unless：条件表达式，当结果为true时，不缓存，默认为空，支持SpEL
+    @Cacheable(value = "article",
+            key = " #pageNumber+'_'+#pageSize+'_'+#year+'_'+#month+'_'+#categoryId ",
+            unless = "!(#year != null && #month != null && #year < T(java.time.LocalDate).now().getYear() || (#year == T(java.time.LocalDate).now().getYear() && #month < T(java.time.LocalDate).now().getMonthValue()))"
+    )
     public R<List<Article>> list(Integer pageNumber, Integer pageSize,
                                  Integer year, Integer month, Long categoryId) {
         return R.success(articleService.listWithAll(pageNumber, pageSize, year, month, categoryId));
@@ -99,7 +106,6 @@ public class ArticleController {
 
     @GetMapping("/view/{id}")
 // 缓存文章的浏览量大于me.view.count
-
 // 如果文章浏览量大于count，那么清除hot缓存
     @CacheEvict(value = "hot", allEntries = true, condition = "#result.data.viewCounts > @environment.getProperty('${me.view.count}', T(java.lang.Integer) )")
     public R<Article> getArticleAndAddViews(@PathVariable("id") Long id) {
@@ -109,7 +115,14 @@ public class ArticleController {
     }
 
     @PostMapping("/publish")
-    @CacheEvict(value = {"article"}, allEntries = true)
+    // @CacheEvict的作用是清除缓存
+    // value：缓存的名称，必须指定至少一个
+    // allEntries：是否清空所有缓存，默认为false
+    // 如果我想清空指定的缓存，可以使用key属性
+    // key：缓存的key，默认为空，表示使用方法的参数类型及参数值作为key，支持SpEL
+    // condition：条件表达式，当结果为true时，清除缓存，默认为空，支持SpEL
+    // 如果有多个key，可以使用key属性的数组形式
+    @CacheEvict(value = {"article", "category"})
     public R<Map> publicArticle(@RequestBody Article article) {
         // 如果id为空，说明是新增
         Long articleId = null;
@@ -125,6 +138,4 @@ public class ArticleController {
 
         return R.success(Map.of("articleId", articleId));
     }
-
-
 }

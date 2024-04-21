@@ -33,6 +33,9 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
     // 配置静态资源处理
     @Override
     public void addResourceHandlers(org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry registry) {
+        // registry.addResourceHandler("/**").addResourceLocations("file:" + uploadPath);是什么 ？ 为什么要这样配置？
+
+        registry.addResourceHandler("/**").addResourceLocations("file:" + uploadPath);
         registry.addResourceHandler("doc.html").addResourceLocations("classpath:/META-INF/resources/");
         registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
