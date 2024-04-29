@@ -39,7 +39,7 @@ public class MailController {
         System.out.println("Mail code: " + code);
         String subject = "Dear user:";
         String text = "Your code:" + code;
-//        mailService.sendTextMailMessage(to,subject,text);
+        mailService.sendTextMailMessage(to,subject,text);
         return R.success("邮件发送成功");
     }
 }

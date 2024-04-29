@@ -19,7 +19,6 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -91,8 +90,6 @@ public class WebSecurityConfig {
                         .loginPage("/login")
                         // 无需登录认证
                         .permitAll()
-//                        .usernameParameter("username")
-//                        .passwordParameter("password")
                         // 登录成功处理器
                         .successHandler((request, response, authentication)->{
                             response.setContentType("application/json;charset=UTF-8");
@@ -229,17 +226,6 @@ public class WebSecurityConfig {
         return NoOpPasswordEncoder.getInstance();
     }*/
 
-    /*@Bean
-    public CorsFilter corsFilter() {
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("*")); // 设置允许访问的域名
-        config.setAllowedMethods(List.of("*")); // 允许所有HTTP方法
-        config.setAllowedHeaders(List.of("*")); // 允许所有请求头
-        config.setAllowCredentials(true); // 允许发送凭据（例如Cookie）
-        source.registerCorsConfiguration("/**", config);
-        return new CorsFilter(source);
-    }*/
 
     // 跨域请求配置
     @Bean
@@ -255,6 +241,4 @@ public class WebSecurityConfig {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
-
-
 }
