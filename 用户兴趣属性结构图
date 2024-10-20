@@ -10,17 +10,17 @@
         <mxCell id="lMRP7et-RapE2FECToJl-4" value="岗位搜索历史" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="80" y="230" width="20" height="250" as="geometry" />
         </mxCell>
-        <mxCell id="lMRP7et-RapE2FECToJl-5" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="170" y="250" width="50" height="250" as="geometry" />
+        <mxCell id="lMRP7et-RapE2FECToJl-5" value="岗位访问记录" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="130" y="230" width="20" height="250" as="geometry" />
         </mxCell>
         <mxCell id="lMRP7et-RapE2FECToJl-6" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="414" y="260" width="50" height="250" as="geometry" />
+          <mxGeometry x="570" y="210" width="50" height="250" as="geometry" />
         </mxCell>
-        <mxCell id="lMRP7et-RapE2FECToJl-7" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="220" y="250" width="50" height="250" as="geometry" />
+        <mxCell id="lMRP7et-RapE2FECToJl-7" value="社区媒体互动" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="190" y="230" width="20" height="250" as="geometry" />
         </mxCell>
-        <mxCell id="lMRP7et-RapE2FECToJl-8" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="280" y="250" width="50" height="250" as="geometry" />
+        <mxCell id="lMRP7et-RapE2FECToJl-8" value="特定岗位浏览时常" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="315" y="200" width="25" height="250" as="geometry" />
         </mxCell>
         <mxCell id="lMRP7et-RapE2FECToJl-9" value="用户直接表达兴趣信息" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="70" y="120" width="170" height="50" as="geometry" />
@@ -30,6 +30,12 @@
         </mxCell>
         <mxCell id="lMRP7et-RapE2FECToJl-11" value="岗位资源信息" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="550" y="130" width="130" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="lMRP7et-RapE2FECToJl-12" value="岗位访问跳转行为" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="367.5" y="200" width="25" height="250" as="geometry" />
+        </mxCell>
+        <mxCell id="lMRP7et-RapE2FECToJl-13" value="用户交互行为" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="435" y="200" width="25" height="250" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
