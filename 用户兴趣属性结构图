@@ -1,17 +1,17 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36 Edg/129.0.0.0" version="24.8.0">
   <diagram name="第 1 页" id="8R2AYSCf-DcQomgcQmmR">
-    <mxGraphModel dx="1050" dy="658" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="724" dy="454" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="lMRP7et-RapE2FECToJl-3" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="350" y="10" width="190" height="60" as="geometry" />
+        <mxCell id="lMRP7et-RapE2FECToJl-3" value="用户兴趣信息" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="300" y="40" width="160" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="lMRP7et-RapE2FECToJl-4" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="100" y="230" width="50" height="250" as="geometry" />
+        <mxCell id="lMRP7et-RapE2FECToJl-4" value="岗位搜索历史" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="80" y="230" width="20" height="250" as="geometry" />
         </mxCell>
         <mxCell id="lMRP7et-RapE2FECToJl-5" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="110" y="240" width="50" height="250" as="geometry" />
+          <mxGeometry x="170" y="250" width="50" height="250" as="geometry" />
         </mxCell>
         <mxCell id="lMRP7et-RapE2FECToJl-6" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="414" y="260" width="50" height="250" as="geometry" />
@@ -23,13 +23,13 @@
           <mxGeometry x="280" y="250" width="50" height="250" as="geometry" />
         </mxCell>
         <mxCell id="lMRP7et-RapE2FECToJl-9" value="用户直接表达兴趣信息" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="70" y="120" width="190" height="60" as="geometry" />
+          <mxGeometry x="70" y="120" width="170" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="lMRP7et-RapE2FECToJl-10" value="用户直接表达兴趣信息" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="319" y="120" width="190" height="60" as="geometry" />
+        <mxCell id="lMRP7et-RapE2FECToJl-10" value="用户潜在兴趣信息" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="315" y="130" width="149" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="lMRP7et-RapE2FECToJl-11" value="用户直接表达兴趣信息" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="560" y="110" width="190" height="60" as="geometry" />
+        <mxCell id="lMRP7et-RapE2FECToJl-11" value="岗位资源信息" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="550" y="130" width="130" height="40" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
