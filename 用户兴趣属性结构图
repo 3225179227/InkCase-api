@@ -13,9 +13,6 @@
         <mxCell id="lMRP7et-RapE2FECToJl-5" value="岗位访问记录" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="130" y="230" width="20" height="250" as="geometry" />
         </mxCell>
-        <mxCell id="lMRP7et-RapE2FECToJl-6" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="570" y="210" width="50" height="250" as="geometry" />
-        </mxCell>
         <mxCell id="lMRP7et-RapE2FECToJl-7" value="社区媒体互动" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="190" y="230" width="20" height="250" as="geometry" />
         </mxCell>
@@ -23,10 +20,10 @@
           <mxGeometry x="315" y="200" width="25" height="250" as="geometry" />
         </mxCell>
         <mxCell id="lMRP7et-RapE2FECToJl-9" value="用户直接表达兴趣信息" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="70" y="120" width="170" height="50" as="geometry" />
+          <mxGeometry x="70" y="130" width="170" height="40" as="geometry" />
         </mxCell>
         <mxCell id="lMRP7et-RapE2FECToJl-10" value="用户潜在兴趣信息" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="315" y="130" width="149" height="40" as="geometry" />
+          <mxGeometry x="315" y="130" width="165" height="40" as="geometry" />
         </mxCell>
         <mxCell id="lMRP7et-RapE2FECToJl-11" value="岗位资源信息" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="550" y="130" width="130" height="40" as="geometry" />
@@ -35,7 +32,22 @@
           <mxGeometry x="367.5" y="200" width="25" height="250" as="geometry" />
         </mxCell>
         <mxCell id="lMRP7et-RapE2FECToJl-13" value="用户交互行为" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="435" y="200" width="25" height="250" as="geometry" />
+          <mxGeometry x="414" y="200" width="25" height="250" as="geometry" />
+        </mxCell>
+        <mxCell id="lMRP7et-RapE2FECToJl-14" value="资源购买或浏览记录" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="460" y="200" width="25" height="250" as="geometry" />
+        </mxCell>
+        <mxCell id="lMRP7et-RapE2FECToJl-15" value="岗位资源类型&lt;span style=&quot;color: rgba(0, 0, 0, 0); font-family: monospace; font-size: 0px; text-align: start; text-wrap: nowrap;&quot;&gt;%3CmxGraphModel%3E%3Croot%3E%3CmxCell%20id%3D%220%22%2F%3E%3CmxCell%20id%3D%221%22%20parent%3D%220%22%2F%3E%3CmxCell%20id%3D%222%22%20value%3D%22%E8%B5%84%E6%BA%90%E8%B4%AD%E4%B9%B0%E6%88%96%E6%B5%8F%E8%A7%88%E8%AE%B0%E5%BD%95%22%20style%3D%22rounded%3D0%3BwhiteSpace%3Dwrap%3Bhtml%3D1%3B%22%20vertex%3D%221%22%20parent%3D%221%22%3E%3CmxGeometry%20x%3D%22460%22%20y%3D%22200%22%20width%3D%2225%22%20height%3D%22250%22%20as%3D%22geometry%22%2F%3E%3C%2FmxCell%3E%3C%2Froot%3E%3C%2FmxGraphModel%3E&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="550" y="190" width="25" height="250" as="geometry" />
+        </mxCell>
+        <mxCell id="lMRP7et-RapE2FECToJl-16" value="岗位应聘难度等级&lt;span style=&quot;color: rgba(0, 0, 0, 0); font-family: monospace; font-size: 0px; text-align: start; text-wrap: nowrap;&quot;&gt;%3CmxGraphModel%3E%3Croot%3E%3CmxCell%20id%3D%220%22%2F%3E%3CmxCell%20id%3D%221%22%20parent%3D%220%22%2F%3E%3CmxCell%20id%3D%222%22%20value%3D%22%E5%B2%97%E4%BD%8D%E8%B5%84%E6%BA%90%E7%B1%BB%E5%9E%8B%26lt%3Bspan%20style%3D%26quot%3Bcolor%3A%20rgba(0%2C%200%2C%200%2C%200)%3B%20font-family%3A%20monospace%3B%20font-size%3A%200px%3B%20text-align%3A%20start%3B%20text-wrap%3A%20nowrap%3B%26quot%3B%26gt%3B%253CmxGraphModel%253E%253Croot%253E%253CmxCell%2520id%253D%25220%2522%252F%253E%253CmxCell%2520id%253D%25221%2522%2520parent%253D%25220%2522%252F%253E%253CmxCell%2520id%253D%25222%2522%2520value%253D%2522%25E8%25B5%2584%25E6%25BA%2590%25E8%25B4%25AD%25E4%25B9%25B0%25E6%2588%2596%25E6%25B5%258F%25E8%25A7%2588%25E8%25AE%25B0%25E5%25BD%2595%2522%2520style%253D%2522rounded%253D0%253BwhiteSpace%253Dwrap%253Bhtml%253D1%253B%2522%2520vertex%253D%25221%2522%2520parent%253D%25221%2522%253E%253CmxGeometry%2520x%253D%2522460%2522%2520y%253D%2522200%2522%2520width%253D%252225%2522%2520height%253D%2522250%2522%2520as%253D%2522geometry%2522%252F%253E%253C%252FmxCell%253E%253C%252Froot%253E%253C%252FmxGraphModel%253E%26lt%3B%2Fspan%26gt%3B%22%20style%3D%22rounded%3D0%3BwhiteSpace%3Dwrap%3Bhtml%3D1%3B%22%20vertex%3D%221%22%20parent%3D%221%22%3E%3CmxGeometry%20x%3D%22550%22%20y%3D%22190%22%20width%3D%2225%22%20height%3D%22250%22%20as%3D%22geometry%22%2F%3E%3C%2FmxCell%3E%3C%2Froot%3E%3C%2FmxGraphModel%3E&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="590" y="190" width="25" height="250" as="geometry" />
+        </mxCell>
+        <mxCell id="lMRP7et-RapE2FECToJl-17" value="企业规模分类" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="630" y="190" width="25" height="250" as="geometry" />
+        </mxCell>
+        <mxCell id="lMRP7et-RapE2FECToJl-18" value="招聘面向群体" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="670" y="190" width="25" height="250" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
